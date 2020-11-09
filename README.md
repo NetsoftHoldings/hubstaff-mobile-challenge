@@ -12,13 +12,10 @@ We've recently been expanding the functionality of our application to serve a la
 
 One of the new features our clients have asked for is the possibility to have their employees check in at job sites via the mobile app. Suppose an electrical contracting firm receives a request from a customer to have an electrician fix something. We want to allow the electrician to check in at the job site when he/she gets there. 
 
-The challenge proposed is to implement the UI and functionality to implement that feature. Use the screens below to guide your implementation.
+The challenge proposed is to implement the UI and the functionality for that feature. Use the screens below to guide your implementation.
 
 <img src="assets/UI_base.png" width="250">
 <img src="assets/UI_job_site.png" width="250">
-
-<!-- ![UI_Base](./assets/UI_base.png)
-![UI_Job_Site](./assets/UI_job_site.png) -->
 
 The data for the active job sites should be fetched from the following url address:
 [https://run.mocky.io/v3/60fc94d9-db13-4f00-bda4-523f1ba6b4aa](https://run.mocky.io/v3/60fc94d9-db13-4f00-bda4-523f1ba6b4aa)
