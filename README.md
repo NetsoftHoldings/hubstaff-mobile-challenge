@@ -64,7 +64,7 @@ Here's an example of the structure of the response:
 - Show a text with last known location
 - Mockup: https://www.screencast.com/t/oHENxxaXO
 - Text updates if location was changed for more than 500m
-- Text format: “Last known: <latitude> / <longitude>”
+- Text format: “Last known: &lt;latitude&gt; / &lt;longitude&gt;”
 
 ## Stack
 If you build the app for iOS:
