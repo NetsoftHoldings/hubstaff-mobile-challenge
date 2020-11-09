@@ -14,8 +14,8 @@ One of the new features our clients have asked for is the possibility to have th
 
 The challenge proposed is to implement the UI and functionality to implement that feature. Use the screens below to guide your implementation.
 
-<img src="assets/UI_base.png" width="200">
-<img src="assets/UI_job_site.png" width="200">
+<img src="assets/UI_base.png" width="250">
+<img src="assets/UI_job_site.png" width="250">
 
 <!-- ![UI_Base](./assets/UI_base.png)
 ![UI_Job_Site](./assets/UI_job_site.png) -->
@@ -23,7 +23,7 @@ The challenge proposed is to implement the UI and functionality to implement tha
 The data for the active job sites should be fetched from the following url address:
 [https://run.mocky.io/v3/60fc94d9-db13-4f00-bda4-523f1ba6b4aa](https://run.mocky.io/v3/60fc94d9-db13-4f00-bda4-523f1ba6b4aa)
 
-Here's an example of what the response should look like:
+Here's an example of the structure of the response:
 ```
 {
   "sites":
