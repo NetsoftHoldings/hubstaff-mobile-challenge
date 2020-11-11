@@ -60,11 +60,10 @@ Here's an example of the structure of the response:
   - On Exit notification text: "You left <site_name>"
 - The notifications should pop up in the foreground and in the background
 
-#### Bonus (TBD)
-- Show a text with last known location
-- Mockup: https://www.screencast.com/t/oHENxxaXO
-- Text updates if location was changed for more than 500m
-- Text format: “Last known: &lt;latitude&gt; / &lt;longitude&gt;”
+#### Bonus
+- Display a notification on top of the map with the user's last known location ([mockup](https://www.screencast.com/t/oHENxxaXO)).
+- The text on the notification should be the following: “Last known: &lt;latitude&gt; / &lt;longitude&gt;”.
+- The text should be updated every time the user's location is changed in more than 500m.
 
 ## Stack
 If you build the app for iOS:
