@@ -61,8 +61,8 @@ Here's an example of the structure of the response:
 - The notifications should pop up in the foreground and in the background
 
 #### Bonus
-- Display a notification on top of the map with the user's last known location ([mockup](https://www.screencast.com/t/oHENxxaXO)).
-- The text on the notification should be the following: “Last known: &lt;latitude&gt; / &lt;longitude&gt;”.
+- Display a small grey banner on top of the map with the user's last known location ([mockup](https://www.screencast.com/t/oHENxxaXO)).
+- The text on the banner should be the following: “Last known: &lt;latitude&gt; / &lt;longitude&gt;”.
 - The text should be updated every time the user's location is changed in more than 500m.
 
 ## Stack
