@@ -17,6 +17,8 @@
 		657B57912566801D0021FB71 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 657B57902566801D0021FB71 /* MapKit.framework */; };
 		657B5793256681470021FB71 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 657B5792256681470021FB71 /* CoreLocation.framework */; };
 		657B5797256682B70021FB71 /* HTMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 657B5796256682B70021FB71 /* HTMapViewController.m */; };
+		65EB4C0D2566C1A500CA28A2 /* NSObject+Introspection.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EB4C0C2566C1A500CA28A2 /* NSObject+Introspection.m */; };
+		65EB4C142566C7DC00CA28A2 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EB4C132566C7DC00CA28A2 /* UIColor+Hex.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +38,11 @@
 		657B5792256681470021FB71 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		657B5795256682B70021FB71 /* HTMapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMapViewController.h; sourceTree = "<group>"; };
 		657B5796256682B70021FB71 /* HTMapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTMapViewController.m; sourceTree = "<group>"; };
+		65EB4C0A2566C13E00CA28A2 /* SOLUTION.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SOLUTION.md; sourceTree = "<group>"; };
+		65EB4C0B2566C1A500CA28A2 /* NSObject+Introspection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+Introspection.h"; sourceTree = "<group>"; };
+		65EB4C0C2566C1A500CA28A2 /* NSObject+Introspection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Introspection.m"; sourceTree = "<group>"; };
+		65EB4C122566C7DC00CA28A2 /* UIColor+Hex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Hex.h"; sourceTree = "<group>"; };
+		65EB4C132566C7DC00CA28A2 /* UIColor+Hex.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +61,7 @@
 		657B575C25667C930021FB71 = {
 			isa = PBXGroup;
 			children = (
+				65EB4C0A2566C13E00CA28A2 /* SOLUTION.md */,
 				657B576725667C930021FB71 /* Hubstaff Test */,
 				657B576625667C930021FB71 /* Products */,
 				657B578F2566801D0021FB71 /* Frameworks */,
@@ -76,6 +84,7 @@
 				657B578625667F110021FB71 /* API */,
 				657B578C25667FAD0021FB71 /* DataModel */,
 				657B579D256684440021FB71 /* UI */,
+				65EB4C0F2566C1BB00CA28A2 /* Helpers */,
 				657B579A256683FB0021FB71 /* Aux */,
 			);
 			path = "Hubstaff Test";
@@ -127,6 +136,17 @@
 				657B5796256682B70021FB71 /* HTMapViewController.m */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		65EB4C0F2566C1BB00CA28A2 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				65EB4C0B2566C1A500CA28A2 /* NSObject+Introspection.h */,
+				65EB4C0C2566C1A500CA28A2 /* NSObject+Introspection.m */,
+				65EB4C122566C7DC00CA28A2 /* UIColor+Hex.h */,
+				65EB4C132566C7DC00CA28A2 /* UIColor+Hex.m */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -200,8 +220,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				657B578425667F0A0021FB71 /* HTAPIClient.m in Sources */,
+				65EB4C0D2566C1A500CA28A2 /* NSObject+Introspection.m in Sources */,
 				657B578A25667FA80021FB71 /* HTSite.m in Sources */,
 				657B576A25667C930021FB71 /* AppDelegate.m in Sources */,
+				65EB4C142566C7DC00CA28A2 /* UIColor+Hex.m in Sources */,
 				657B577B25667C960021FB71 /* main.m in Sources */,
 				657B5797256682B70021FB71 /* HTMapViewController.m in Sources */,
 			);
