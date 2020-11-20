@@ -19,6 +19,7 @@
 		657B5797256682B70021FB71 /* HTMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 657B5796256682B70021FB71 /* HTMapViewController.m */; };
 		65EB4C0D2566C1A500CA28A2 /* NSObject+Introspection.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EB4C0C2566C1A500CA28A2 /* NSObject+Introspection.m */; };
 		65EB4C142566C7DC00CA28A2 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EB4C132566C7DC00CA28A2 /* UIColor+Hex.m */; };
+		65EB4C182566D35700CA28A2 /* HTAllSitesRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EB4C172566D35700CA28A2 /* HTAllSitesRequest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,9 @@
 		65EB4C0C2566C1A500CA28A2 /* NSObject+Introspection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Introspection.m"; sourceTree = "<group>"; };
 		65EB4C122566C7DC00CA28A2 /* UIColor+Hex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Hex.h"; sourceTree = "<group>"; };
 		65EB4C132566C7DC00CA28A2 /* UIColor+Hex.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
+		65EB4C162566D35700CA28A2 /* HTAllSitesRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTAllSitesRequest.h; sourceTree = "<group>"; };
+		65EB4C172566D35700CA28A2 /* HTAllSitesRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTAllSitesRequest.m; sourceTree = "<group>"; };
+		65EB4C1A2566D9EC00CA28A2 /* HTAllSitesResponseBlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTAllSitesResponseBlock.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +99,9 @@
 			children = (
 				657B578225667F0A0021FB71 /* HTAPIClient.h */,
 				657B578325667F0A0021FB71 /* HTAPIClient.m */,
+				65EB4C162566D35700CA28A2 /* HTAllSitesRequest.h */,
+				65EB4C172566D35700CA28A2 /* HTAllSitesRequest.m */,
+				65EB4C1A2566D9EC00CA28A2 /* HTAllSitesResponseBlock.h */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -223,6 +230,7 @@
 				65EB4C0D2566C1A500CA28A2 /* NSObject+Introspection.m in Sources */,
 				657B578A25667FA80021FB71 /* HTSite.m in Sources */,
 				657B576A25667C930021FB71 /* AppDelegate.m in Sources */,
+				65EB4C182566D35700CA28A2 /* HTAllSitesRequest.m in Sources */,
 				65EB4C142566C7DC00CA28A2 /* UIColor+Hex.m in Sources */,
 				657B577B25667C960021FB71 /* main.m in Sources */,
 				657B5797256682B70021FB71 /* HTMapViewController.m in Sources */,

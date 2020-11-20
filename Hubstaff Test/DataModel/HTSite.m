@@ -21,8 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *radius;
 @property (nonatomic, strong) NSString *color;
 
-- (id)initWithDictionary:(NSDictionary<NSString *,NSString *> *)dictionary
-        andPropertyNames:(NSArray<NSString *> *)propertyNames;
+- (instancetype)initWithDictionary:(NSDictionary<NSString *,NSString *> *)dictionary
+                  andPropertyNames:(NSArray<NSString *> *)propertyNames;
 
 @end
 
@@ -41,14 +41,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [result copy];
 }
 
-- (id)initWithDictionary:(NSDictionary<NSString *,NSString *> *)dictionary {
+- (instancetype)initWithDictionary:(NSDictionary<NSString *,NSString *> *)dictionary {
     self = [self initWithDictionary:dictionary
                    andPropertyNames:[self propertyNames]];
     return self;
 }
 
-- (id)initWithDictionary:(NSDictionary<NSString *,NSString *> *)dictionary
-        andPropertyNames:(NSArray<NSString *> *)propertyNames
+- (instancetype)initWithDictionary:(NSDictionary<NSString *,NSString *> *)dictionary
+                  andPropertyNames:(NSArray<NSString *> *)propertyNames
 {
     if (self = [super init]) {
         //special case for id since it's a reserved word

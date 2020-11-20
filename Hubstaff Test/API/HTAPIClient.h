@@ -6,12 +6,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HTAllSitesResponseBlock.h"
+
+@class HTSite;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HTAPIClient : NSObject
 
-//- (void)loadActiveSites:(void^()void);
++ (HTAPIClient *)sharedClient;
+
+- (void)loadAllSitesWithBlock:(HTActiveSitesResultBlock)block;
 
 @end
 

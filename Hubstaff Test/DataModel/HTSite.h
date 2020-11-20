@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// This is marked as non-nil, but may be nil if the hex string is malformed. This is intentional.
 @property (nonatomic, readonly) UIColor *uiColor;
 
-- (id)initWithDictionary:(NSDictionary<NSString *, NSString *> *)dictionary;
+- (instancetype)initWithDictionary:(NSDictionary<NSString *, NSString *> *)dictionary;
 
 @end
 
