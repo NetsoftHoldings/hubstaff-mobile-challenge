@@ -32,3 +32,12 @@
 */
 
 @end
+
+
+#pragma mark - MapView Delegate
+@interface HTMapViewController (MapView) <MKMapViewDelegate>
+@end
+
+@implementation HTMapViewController (MapView)
+
+@end
