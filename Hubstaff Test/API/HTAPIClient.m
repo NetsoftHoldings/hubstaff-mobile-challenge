@@ -70,13 +70,13 @@
     didReceiveData:(NSData *)data
 {
     if ([dataTask.originalRequest isMemberOfClass:[HTAllSitesRequest class]]) {
-        #warning TODO: make this more generic
+        #warning TODO: AC - make this more generic
         NSError *jsonError;
         NSDictionary *response = [NSJSONSerialization JSONObjectWithData:data
                                                                  options:0
                                                                    error:&jsonError];
-        #warning TODO: build a more rebust debug logging mechanism, potentially with file and function names
-        #warning TODO: add proper error handling
+        #warning TODO: AC - build a more rebust debug logging mechanism, potentially with file and function names
+        #warning TODO: AC - add proper error handling
         #if DEBUG
         if (jsonError) NSLog(@"HTAllSitesRequest error: %@",jsonError);
         #endif

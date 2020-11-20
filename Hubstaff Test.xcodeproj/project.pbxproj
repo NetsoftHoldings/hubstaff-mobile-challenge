@@ -20,6 +20,9 @@
 		65EB4C0D2566C1A500CA28A2 /* NSObject+Introspection.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EB4C0C2566C1A500CA28A2 /* NSObject+Introspection.m */; };
 		65EB4C142566C7DC00CA28A2 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EB4C132566C7DC00CA28A2 /* UIColor+Hex.m */; };
 		65EB4C182566D35700CA28A2 /* HTAllSitesRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EB4C172566D35700CA28A2 /* HTAllSitesRequest.m */; };
+		65EB4C1E2567BBF800CA28A2 /* HTSitePresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EB4C1D2567BBF800CA28A2 /* HTSitePresenter.m */; };
+		65EB4C262567BCBC00CA28A2 /* HTBasePresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EB4C252567BCBC00CA28A2 /* HTBasePresenter.m */; };
+		65EB4C2B2567DC9500CA28A2 /* HTAllSitesPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EB4C2A2567DC9500CA28A2 /* HTAllSitesPresenter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +50,12 @@
 		65EB4C162566D35700CA28A2 /* HTAllSitesRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTAllSitesRequest.h; sourceTree = "<group>"; };
 		65EB4C172566D35700CA28A2 /* HTAllSitesRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTAllSitesRequest.m; sourceTree = "<group>"; };
 		65EB4C1A2566D9EC00CA28A2 /* HTAllSitesResponseBlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTAllSitesResponseBlock.h; sourceTree = "<group>"; };
+		65EB4C1C2567BBF800CA28A2 /* HTSitePresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTSitePresenter.h; sourceTree = "<group>"; };
+		65EB4C1D2567BBF800CA28A2 /* HTSitePresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTSitePresenter.m; sourceTree = "<group>"; };
+		65EB4C242567BCBC00CA28A2 /* HTBasePresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTBasePresenter.h; sourceTree = "<group>"; };
+		65EB4C252567BCBC00CA28A2 /* HTBasePresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTBasePresenter.m; sourceTree = "<group>"; };
+		65EB4C292567DC9500CA28A2 /* HTAllSitesPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTAllSitesPresenter.h; sourceTree = "<group>"; };
+		65EB4C2A2567DC9500CA28A2 /* HTAllSitesPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTAllSitesPresenter.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,7 +96,8 @@
 				657B576925667C930021FB71 /* AppDelegate.m */,
 				657B578625667F110021FB71 /* API */,
 				657B578C25667FAD0021FB71 /* DataModel */,
-				657B579D256684440021FB71 /* UI */,
+				65EB4C202567BBFC00CA28A2 /* Presenters */,
+				657B579D256684440021FB71 /* Views */,
 				65EB4C0F2566C1BB00CA28A2 /* Helpers */,
 				657B579A256683FB0021FB71 /* Aux */,
 			);
@@ -135,14 +145,14 @@
 			path = Aux;
 			sourceTree = "<group>";
 		};
-		657B579D256684440021FB71 /* UI */ = {
+		657B579D256684440021FB71 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				657B577125667C930021FB71 /* Main.storyboard */,
 				657B5795256682B70021FB71 /* HTMapViewController.h */,
 				657B5796256682B70021FB71 /* HTMapViewController.m */,
 			);
-			path = UI;
+			path = Views;
 			sourceTree = "<group>";
 		};
 		65EB4C0F2566C1BB00CA28A2 /* Helpers */ = {
@@ -154,6 +164,19 @@
 				65EB4C132566C7DC00CA28A2 /* UIColor+Hex.m */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		65EB4C202567BBFC00CA28A2 /* Presenters */ = {
+			isa = PBXGroup;
+			children = (
+				65EB4C242567BCBC00CA28A2 /* HTBasePresenter.h */,
+				65EB4C252567BCBC00CA28A2 /* HTBasePresenter.m */,
+				65EB4C1C2567BBF800CA28A2 /* HTSitePresenter.h */,
+				65EB4C1D2567BBF800CA28A2 /* HTSitePresenter.m */,
+				65EB4C292567DC9500CA28A2 /* HTAllSitesPresenter.h */,
+				65EB4C2A2567DC9500CA28A2 /* HTAllSitesPresenter.m */,
+			);
+			path = Presenters;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -227,13 +250,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				657B578425667F0A0021FB71 /* HTAPIClient.m in Sources */,
+				65EB4C2B2567DC9500CA28A2 /* HTAllSitesPresenter.m in Sources */,
 				65EB4C0D2566C1A500CA28A2 /* NSObject+Introspection.m in Sources */,
 				657B578A25667FA80021FB71 /* HTSite.m in Sources */,
 				657B576A25667C930021FB71 /* AppDelegate.m in Sources */,
 				65EB4C182566D35700CA28A2 /* HTAllSitesRequest.m in Sources */,
 				65EB4C142566C7DC00CA28A2 /* UIColor+Hex.m in Sources */,
+				65EB4C1E2567BBF800CA28A2 /* HTSitePresenter.m in Sources */,
 				657B577B25667C960021FB71 /* main.m in Sources */,
 				657B5797256682B70021FB71 /* HTMapViewController.m in Sources */,
+				65EB4C262567BCBC00CA28A2 /* HTBasePresenter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

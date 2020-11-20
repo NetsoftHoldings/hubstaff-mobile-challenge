@@ -8,6 +8,8 @@
 #ifndef HTAllSitesResponseBlock_h
 #define HTAllSitesResponseBlock_h
 
+@class HTSite;
+
 // Must see: http://goshdarnblocksyntax.com/
 typedef void(^HTActiveSitesResultBlock)(NSArray<HTSite *> *sites);
 
