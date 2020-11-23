@@ -25,6 +25,8 @@
 		65EB4C2B2567DC9500CA28A2 /* HTAllSitesPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EB4C2A2567DC9500CA28A2 /* HTAllSitesPresenter.m */; };
 		65EB4C3F256931F300CA28A2 /* HTLocationPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EB4C3E256931F300CA28A2 /* HTLocationPresenter.m */; };
 		65EB4C432569320000CA28A2 /* HTNotificationsPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EB4C422569320000CA28A2 /* HTNotificationsPresenter.m */; };
+		65EB4C47256BCDE200CA28A2 /* HTActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EB4C46256BCDE200CA28A2 /* HTActivityIndicatorView.m */; };
+		65EB4C4F256BCEE600CA28A2 /* HTCurrentLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EB4C4E256BCEE600CA28A2 /* HTCurrentLocationViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +65,10 @@
 		65EB4C3E256931F300CA28A2 /* HTLocationPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTLocationPresenter.m; sourceTree = "<group>"; };
 		65EB4C412569320000CA28A2 /* HTNotificationsPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTNotificationsPresenter.h; sourceTree = "<group>"; };
 		65EB4C422569320000CA28A2 /* HTNotificationsPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTNotificationsPresenter.m; sourceTree = "<group>"; };
+		65EB4C45256BCDE200CA28A2 /* HTActivityIndicatorView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTActivityIndicatorView.h; sourceTree = "<group>"; };
+		65EB4C46256BCDE200CA28A2 /* HTActivityIndicatorView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTActivityIndicatorView.m; sourceTree = "<group>"; };
+		65EB4C4D256BCEE600CA28A2 /* HTCurrentLocationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTCurrentLocationViewController.h; sourceTree = "<group>"; };
+		65EB4C4E256BCEE600CA28A2 /* HTCurrentLocationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTCurrentLocationViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +111,7 @@
 				657B578C25667FAD0021FB71 /* DataModel */,
 				65EB4C202567BBFC00CA28A2 /* Presenters */,
 				657B579D256684440021FB71 /* Views */,
+				65EB4C49256BCDE600CA28A2 /* CustomUIElements */,
 				65EB4C0F2566C1BB00CA28A2 /* Helpers */,
 				657B579A256683FB0021FB71 /* Aux */,
 			);
@@ -158,6 +165,8 @@
 				657B577125667C930021FB71 /* Main.storyboard */,
 				657B5795256682B70021FB71 /* HTMapViewController.h */,
 				657B5796256682B70021FB71 /* HTMapViewController.m */,
+				65EB4C4D256BCEE600CA28A2 /* HTCurrentLocationViewController.h */,
+				65EB4C4E256BCEE600CA28A2 /* HTCurrentLocationViewController.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -189,6 +198,15 @@
 				65EB4C422569320000CA28A2 /* HTNotificationsPresenter.m */,
 			);
 			path = Presenters;
+			sourceTree = "<group>";
+		};
+		65EB4C49256BCDE600CA28A2 /* CustomUIElements */ = {
+			isa = PBXGroup;
+			children = (
+				65EB4C45256BCDE200CA28A2 /* HTActivityIndicatorView.h */,
+				65EB4C46256BCDE200CA28A2 /* HTActivityIndicatorView.m */,
+			);
+			path = CustomUIElements;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -264,10 +282,12 @@
 				657B578425667F0A0021FB71 /* HTAPIClient.m in Sources */,
 				65EB4C432569320000CA28A2 /* HTNotificationsPresenter.m in Sources */,
 				65EB4C2B2567DC9500CA28A2 /* HTAllSitesPresenter.m in Sources */,
+				65EB4C4F256BCEE600CA28A2 /* HTCurrentLocationViewController.m in Sources */,
 				65EB4C0D2566C1A500CA28A2 /* NSObject+Introspection.m in Sources */,
 				657B578A25667FA80021FB71 /* HTSite.m in Sources */,
 				657B576A25667C930021FB71 /* AppDelegate.m in Sources */,
 				65EB4C182566D35700CA28A2 /* HTAllSitesRequest.m in Sources */,
+				65EB4C47256BCDE200CA28A2 /* HTActivityIndicatorView.m in Sources */,
 				65EB4C142566C7DC00CA28A2 /* UIColor+Hex.m in Sources */,
 				65EB4C1E2567BBF800CA28A2 /* HTSitePresenter.m in Sources */,
 				657B577B25667C960021FB71 /* main.m in Sources */,
