@@ -8,12 +8,13 @@
 #import "HTAllSitesPresenter.h"
 #import "HTSite.h"
 #import "HTAPIClient.h"
-#import <CoreLocation/CoreLocation.h>
 
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface HTAllSitesPresenter ()
 
-@property (nonatomic, strong) NSArray<HTSite *> *allSites;
+@property (nonatomic, strong) NSDictionary<NSString *, HTSite *> *allSites;
 
 @end
 
@@ -24,10 +25,24 @@
 
 - (instancetype)initWithAllSitesView:(id<HTAllSitesView>)allSitesView
 {
-    if (self = [self initWithBaseView:allSitesView]) {
+    if (self = [self initWithBaseView:allSitesView andQueue:nil]) {
         //Noop
     }
     return self;
+}
+
+- (id<HTAllSitesView> __nullable)allSitesView
+{
+    if ([self.baseView conformsToProtocol:@protocol(HTAllSitesView)]) {
+        return (id<HTAllSitesView> __nullable)self.baseView;
+    }
+    return nil;
+}
+
+- (NSDictionary<NSString *, HTSite *> *)allSites
+{
+    if (_allSites == nil) _allSites = @{};
+    return _allSites;
 }
 
 #pragma mark - Loading
@@ -35,23 +50,28 @@
 - (void)loadAllSites
 {
     [self setLoadingState:HTPresenterLoadingStateLoading];
+
     __weak typeof(self) weakSelf = self;
     [[HTAPIClient sharedClient] loadAllSitesWithBlock:^(NSArray<HTSite *> *sites) {
-        weakSelf.allSites = sites;
+        NSMutableDictionary<NSString *, HTSite *> *newSites = [[NSMutableDictionary alloc] initWithCapacity:sites.count + 1];
+        for (HTSite *site in sites) {
+            [newSites setValue:site forKey:site.siteId];
+        }
+        weakSelf.allSites = [newSites copy];
 
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf.allSitesView bindAllSites:sites];
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [weakSelf.allSitesView bindAllSites:weakSelf.allSites];
         });
 
         BOOL isEmpty = sites.count == 0;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (isEmpty) {
-                [weakSelf setLoadingState:HTPresenterLoadingStateEmpty];
-            } else {
-                [weakSelf setLoadingState:HTPresenterLoadingStateIdle];
-            }
-        });
-    }];
+        if (isEmpty) {
+            [weakSelf setLoadingState:HTPresenterLoadingStateEmpty];
+        } else {
+            [weakSelf setLoadingState:HTPresenterLoadingStateIdle];
+        }
+    } usingQueue:self.queue];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

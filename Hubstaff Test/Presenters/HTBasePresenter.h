@@ -19,14 +19,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol HTBaseView <NSObject>
 - (void)didChangeLoadingState:(HTPresenterLoadingState)state;
+#warning TODO: AC - make this required
+@optional
+- (void)presentError:(NSError *)error;
 @end
 
 
 @interface HTBasePresenter : NSObject
 
 @property (nonatomic, weak) id<HTBaseView> __nullable baseView;
+@property (nonatomic, readonly) NSOperationQueue *queue;
 
-- (instancetype)initWithBaseView:(id<HTBaseView>)baseView;
+- (instancetype)initWithBaseView:(id<HTBaseView>)baseView
+                        andQueue:(NSOperationQueue * __nullable)queue;
 
 @property (nonatomic, readonly) BOOL isLoading;
 @property (atomic, readonly) HTPresenterLoadingState currentLoadingState;

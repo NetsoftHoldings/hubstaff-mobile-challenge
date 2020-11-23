@@ -14,14 +14,14 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol HTAllSitesView <HTBaseView>
-- (void)bindAllSites:(NSArray<HTSite *> *)allSites;
+- (void)bindAllSites:(NSDictionary<NSString *, HTSite *> *)allSites;
 @end
 
 
 @interface HTAllSitesPresenter : HTBasePresenter
 
-@property (nonatomic, weak) id<HTAllSitesView> __nullable allSitesView;
-@property (nonatomic, readonly) NSArray<HTSite *> *allSites;
+@property (nonatomic, readonly) id<HTAllSitesView> __nullable allSitesView;
+@property (nonatomic, readonly) NSDictionary<NSString *, HTSite *> *allSites;
 
 - (instancetype)initWithAllSitesView:(id<HTAllSitesView>)allSitesView;
 

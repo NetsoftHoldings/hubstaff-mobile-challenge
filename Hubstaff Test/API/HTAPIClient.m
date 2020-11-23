@@ -56,10 +56,13 @@
 #pragma mark - Public Methods
 
 - (void)loadAllSitesWithBlock:(HTActiveSitesResultBlock)block
+                   usingQueue:(NSOperationQueue *)queue
 {
     __weak typeof(self) weakSelf = self;
     [self.queue addOperationWithBlock:^{
-        [[weakSelf.urlSession dataTaskWithRequest:[[HTAllSitesRequest alloc] initWithBlock:block]] resume];
+        NSURLRequest *request = [[HTAllSitesRequest alloc] initWithBlock:block
+                                                        andResponseQueue:(queue) ? queue : [NSOperationQueue mainQueue]];
+        [[weakSelf.urlSession dataTaskWithRequest:request] resume];
     }];
 }
 
@@ -83,10 +86,11 @@
         NSArray<NSDictionary *> *rawSites = response[@"sites"];
         NSArray<HTSite *> *sites = [HTSite sitesWithDictionaries:rawSites];
 
-        HTActiveSitesResultBlock block = [(HTAllSitesRequest *)dataTask.originalRequest completionBlock];
-        dispatch_async(dispatch_get_main_queue(), ^{
+        HTAllSitesRequest *originalRequest = (HTAllSitesRequest *)dataTask.originalRequest;
+        HTActiveSitesResultBlock block = [originalRequest completionBlock];
+        [originalRequest.responseQueue addOperationWithBlock:^{
             block(sites);
-        });
+        }];
     }
 }
 

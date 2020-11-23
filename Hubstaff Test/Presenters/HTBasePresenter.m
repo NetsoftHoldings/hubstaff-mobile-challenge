@@ -8,8 +8,11 @@
 #import "HTBasePresenter.h"
 
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface HTBasePresenter ()
 
+@property (nonatomic, strong) NSOperationQueue *queue;
 @property (atomic, assign) HTPresenterLoadingState currentLoadingState;
 @property (atomic, assign) NSUInteger loadingCount;
 
@@ -29,11 +32,24 @@
 }
 
 - (instancetype)initWithBaseView:(id<HTBaseView>)baseView
+                        andQueue:(NSOperationQueue * _Nullable)queue
 {
     if (self = [self init]) {
-        self.baseView = baseView;
+        _baseView = baseView;
+        _queue = queue;
     }
     return self;
+}
+
+- (NSOperationQueue *)queue
+{
+    if (_queue == nil) {
+        _queue = [NSOperationQueue new];
+        _queue.name = @"HTBasePresenterQueue";
+        _queue.maxConcurrentOperationCount = 1;
+        _queue.qualityOfService = NSQualityOfServiceUserInitiated;
+    }
+    return _queue;
 }
 
 #pragma mark - Computed Properties
@@ -86,3 +102,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

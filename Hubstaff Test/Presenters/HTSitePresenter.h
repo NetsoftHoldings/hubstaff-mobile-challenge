@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HTSitePresenter : HTBasePresenter
 
-@property (nonatomic, weak) id<HTSiteView> __nullable siteView;
+@property (nonatomic, readonly) id<HTSiteView> __nullable siteView;
 @property (nonatomic, strong) HTSite *site;
 
 - (instancetype)initWithSiteView:(id<HTSiteView>)siteView

@@ -9,6 +9,8 @@
 #import "HTSite.h"
 
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation HTSitePresenter
 
 #pragma mark - Setup
@@ -18,8 +20,7 @@
 - (instancetype)initWithSiteView:(id<HTSiteView>)siteView
                          andSite:(HTSite *)site
 {
-    if (self = [self initWithBaseView:siteView]) {
-        self.siteView = siteView;
+    if (self = [self initWithBaseView:siteView andQueue:nil]) {
         _site = site;
     }
     return self;
@@ -39,3 +40,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

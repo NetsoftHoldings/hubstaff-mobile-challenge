@@ -23,6 +23,8 @@
 		65EB4C1E2567BBF800CA28A2 /* HTSitePresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EB4C1D2567BBF800CA28A2 /* HTSitePresenter.m */; };
 		65EB4C262567BCBC00CA28A2 /* HTBasePresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EB4C252567BCBC00CA28A2 /* HTBasePresenter.m */; };
 		65EB4C2B2567DC9500CA28A2 /* HTAllSitesPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EB4C2A2567DC9500CA28A2 /* HTAllSitesPresenter.m */; };
+		65EB4C3F256931F300CA28A2 /* HTLocationPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EB4C3E256931F300CA28A2 /* HTLocationPresenter.m */; };
+		65EB4C432569320000CA28A2 /* HTNotificationsPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EB4C422569320000CA28A2 /* HTNotificationsPresenter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +58,11 @@
 		65EB4C252567BCBC00CA28A2 /* HTBasePresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTBasePresenter.m; sourceTree = "<group>"; };
 		65EB4C292567DC9500CA28A2 /* HTAllSitesPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTAllSitesPresenter.h; sourceTree = "<group>"; };
 		65EB4C2A2567DC9500CA28A2 /* HTAllSitesPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTAllSitesPresenter.m; sourceTree = "<group>"; };
+		65EB4C36256922F400CA28A2 /* HTConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTConstants.h; sourceTree = "<group>"; };
+		65EB4C3D256931F300CA28A2 /* HTLocationPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTLocationPresenter.h; sourceTree = "<group>"; };
+		65EB4C3E256931F300CA28A2 /* HTLocationPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTLocationPresenter.m; sourceTree = "<group>"; };
+		65EB4C412569320000CA28A2 /* HTNotificationsPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTNotificationsPresenter.h; sourceTree = "<group>"; };
+		65EB4C422569320000CA28A2 /* HTNotificationsPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTNotificationsPresenter.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +169,7 @@
 				65EB4C0C2566C1A500CA28A2 /* NSObject+Introspection.m */,
 				65EB4C122566C7DC00CA28A2 /* UIColor+Hex.h */,
 				65EB4C132566C7DC00CA28A2 /* UIColor+Hex.m */,
+				65EB4C36256922F400CA28A2 /* HTConstants.h */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -175,6 +183,10 @@
 				65EB4C1D2567BBF800CA28A2 /* HTSitePresenter.m */,
 				65EB4C292567DC9500CA28A2 /* HTAllSitesPresenter.h */,
 				65EB4C2A2567DC9500CA28A2 /* HTAllSitesPresenter.m */,
+				65EB4C3D256931F300CA28A2 /* HTLocationPresenter.h */,
+				65EB4C3E256931F300CA28A2 /* HTLocationPresenter.m */,
+				65EB4C412569320000CA28A2 /* HTNotificationsPresenter.h */,
+				65EB4C422569320000CA28A2 /* HTNotificationsPresenter.m */,
 			);
 			path = Presenters;
 			sourceTree = "<group>";
@@ -250,6 +262,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				657B578425667F0A0021FB71 /* HTAPIClient.m in Sources */,
+				65EB4C432569320000CA28A2 /* HTNotificationsPresenter.m in Sources */,
 				65EB4C2B2567DC9500CA28A2 /* HTAllSitesPresenter.m in Sources */,
 				65EB4C0D2566C1A500CA28A2 /* NSObject+Introspection.m in Sources */,
 				657B578A25667FA80021FB71 /* HTSite.m in Sources */,
@@ -258,6 +271,7 @@
 				65EB4C142566C7DC00CA28A2 /* UIColor+Hex.m in Sources */,
 				65EB4C1E2567BBF800CA28A2 /* HTSitePresenter.m in Sources */,
 				657B577B25667C960021FB71 /* main.m in Sources */,
+				65EB4C3F256931F300CA28A2 /* HTLocationPresenter.m in Sources */,
 				657B5797256682B70021FB71 /* HTMapViewController.m in Sources */,
 				65EB4C262567BCBC00CA28A2 /* HTBasePresenter.m in Sources */,
 			);
@@ -404,7 +418,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XY7HUX42SH;
 				INFOPLIST_FILE = "$(SRCROOT)/Hubstaff Test/Aux/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -412,6 +428,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bellapplab.Hubstaff-Test";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -421,7 +438,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XY7HUX42SH;
 				INFOPLIST_FILE = "$(SRCROOT)/Hubstaff Test/Aux/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -429,6 +448,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bellapplab.Hubstaff-Test";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

@@ -16,7 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (HTAPIClient *)sharedClient;
 
-- (void)loadAllSitesWithBlock:(HTActiveSitesResultBlock)block;
+- (void)loadAllSitesWithBlock:(HTActiveSitesResultBlock)block
+                   usingQueue:(NSOperationQueue * __nullable)queue;
 
 @end
 
