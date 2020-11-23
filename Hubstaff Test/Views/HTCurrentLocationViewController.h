@@ -8,12 +8,12 @@
 #import <UIKit/UIKit.h>
 
 
-@class CLLocation;
+@protocol HTLocationView;
 
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HTCurrentLocationViewController : UIViewController
+@interface HTCurrentLocationViewController : UIViewController <HTLocationView>
 
 @end
 

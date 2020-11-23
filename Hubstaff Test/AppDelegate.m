@@ -15,10 +15,7 @@
 
 @implementation AppDelegate
 
-+ (instancetype)sharedDelegate {
-    return (AppDelegate *)[UIApplication sharedApplication].delegate;
-}
-
+#pragma mark - Application Life Cycle
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     return YES;
 }

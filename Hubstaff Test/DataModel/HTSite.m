@@ -7,9 +7,10 @@
 
 #import "HTSite.h"
 #import "NSObject+Introspection.h"
-#import <CoreLocation/CoreLocation.h>
+#import <CoreLocation/CLLocation.h>
 #import "UIColor+Hex.h"
 #import "HTConstants.h"
+#import <MapKit/MKAnnotation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,6 +22,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *longitude;
 @property (nonatomic, strong) NSString *radius;
 @property (nonatomic, strong) NSString *color;
+
+@property (nonatomic, strong) CLLocation *location;
+@property (nonatomic, strong) NSNumber *radiusInMeters;
 
 - (instancetype)initWithDictionary:(NSDictionary<NSString *,NSString *> *)dictionary
                   andPropertyNames:(NSArray<NSString *> *)propertyNames;
@@ -62,18 +66,36 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Properties
 
 - (CLLocation *)location {
-    #warning TODO: AC - memoize lat and long as numbers
-    return [[CLLocation alloc] initWithLatitude:self.latitude.doubleValue
-                                      longitude:self.longitude.doubleValue];
+    if (_location == nil) {
+        _location = [[CLLocation alloc] initWithLatitude:self.latitude.doubleValue
+                                               longitude:self.longitude.doubleValue];
+    }
+    return _location;
 }
 
 - (NSNumber *)radiusInMeters {
-    #warning TODO: AC - check with the back-end if this is always an integer
-    return [NSNumber numberWithInt:self.radius.intValue];
+    if (_radiusInMeters == nil) {
+        _radiusInMeters = [NSNumber numberWithInt:self.radius.intValue];
+    }
+    return _radiusInMeters;
 }
 
 - (UIColor *)uiColor {
     return [UIColor colorFromHexString:self.color];
+}
+
+#pragma mark - Annotation
+
+- (CLLocationCoordinate2D)coordinate {
+    return self.location.coordinate;
+}
+
+- (NSString * __nullable)title {
+    return self.name;
+}
+
+- (NSString * __nullable)subtitle {
+    return @"";
 }
 
 @end

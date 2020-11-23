@@ -156,7 +156,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.queue addOperationWithBlock:^{
         CLLocationDistance maximumDistance = locationManager.maximumRegionMonitoringDistance;
         NSUInteger totalSites = (sites.count >= kHTMaximumNumberOfRegions) ? kHTMaximumNumberOfRegions : sites.count;
-        NSMutableArray<__kindof CLRegion *> *newRegions = [[NSMutableArray alloc] initWithCapacity:totalSites];
+        NSMutableArray<CLCircularRegion *> *newRegions = [[NSMutableArray alloc] initWithCapacity:totalSites];
         [sites enumerateObjectsUsingBlock:^(HTSite * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 #warning TODO: AC - review the policy we want to apply to drop sites
             if (idx >= kHTMaximumNumberOfRegions) {

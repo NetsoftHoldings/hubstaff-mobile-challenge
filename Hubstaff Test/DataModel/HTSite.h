@@ -9,12 +9,13 @@
 
 
 @class UIColor, CLLocation;
+@protocol MKAnnotation;
 
 
 NS_ASSUME_NONNULL_BEGIN
 
 /// Properties are assumed to be non-nil, so if the back-end response changes, we fail quickly.
-@interface HTSite : NSObject
+@interface HTSite : NSObject <MKAnnotation>
 
 + (NSArray<HTSite *> *)sitesWithDictionaries:(NSArray<NSDictionary *> *)dictionaries;
 

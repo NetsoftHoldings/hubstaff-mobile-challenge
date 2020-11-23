@@ -11,15 +11,15 @@
 @class HTSite;
 @class CLLocationManager;
 @class CLLocation;
-@class CLRegion;
+@class CLCircularRegion;
 
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol HTLocationView <HTBaseView>
 - (void)bindCurrentLocation:(CLLocation * __nullable)location;
-- (void)userDidEnterRegion:(CLRegion *)region;
-- (void)userDidExitRegion:(CLRegion *)region;
+- (void)userDidEnterRegion:(CLCircularRegion *)region;
+- (void)userDidExitRegion:(CLCircularRegion *)region;
 @end
 
 

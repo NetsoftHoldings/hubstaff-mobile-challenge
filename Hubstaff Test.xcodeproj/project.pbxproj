@@ -27,6 +27,7 @@
 		65EB4C432569320000CA28A2 /* HTNotificationsPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EB4C422569320000CA28A2 /* HTNotificationsPresenter.m */; };
 		65EB4C47256BCDE200CA28A2 /* HTActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EB4C46256BCDE200CA28A2 /* HTActivityIndicatorView.m */; };
 		65EB4C4F256BCEE600CA28A2 /* HTCurrentLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EB4C4E256BCEE600CA28A2 /* HTCurrentLocationViewController.m */; };
+		65EB4C53256BDDD400CA28A2 /* CLCircularRegion+Distance.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EB4C52256BDDD400CA28A2 /* CLCircularRegion+Distance.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,6 +70,8 @@
 		65EB4C46256BCDE200CA28A2 /* HTActivityIndicatorView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTActivityIndicatorView.m; sourceTree = "<group>"; };
 		65EB4C4D256BCEE600CA28A2 /* HTCurrentLocationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTCurrentLocationViewController.h; sourceTree = "<group>"; };
 		65EB4C4E256BCEE600CA28A2 /* HTCurrentLocationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTCurrentLocationViewController.m; sourceTree = "<group>"; };
+		65EB4C51256BDDD400CA28A2 /* CLCircularRegion+Distance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CLCircularRegion+Distance.h"; sourceTree = "<group>"; };
+		65EB4C52256BDDD400CA28A2 /* CLCircularRegion+Distance.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CLCircularRegion+Distance.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,11 +177,13 @@
 		65EB4C0F2566C1BB00CA28A2 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				65EB4C36256922F400CA28A2 /* HTConstants.h */,
 				65EB4C0B2566C1A500CA28A2 /* NSObject+Introspection.h */,
 				65EB4C0C2566C1A500CA28A2 /* NSObject+Introspection.m */,
 				65EB4C122566C7DC00CA28A2 /* UIColor+Hex.h */,
 				65EB4C132566C7DC00CA28A2 /* UIColor+Hex.m */,
-				65EB4C36256922F400CA28A2 /* HTConstants.h */,
+				65EB4C51256BDDD400CA28A2 /* CLCircularRegion+Distance.h */,
+				65EB4C52256BDDD400CA28A2 /* CLCircularRegion+Distance.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -283,6 +288,7 @@
 				65EB4C432569320000CA28A2 /* HTNotificationsPresenter.m in Sources */,
 				65EB4C2B2567DC9500CA28A2 /* HTAllSitesPresenter.m in Sources */,
 				65EB4C4F256BCEE600CA28A2 /* HTCurrentLocationViewController.m in Sources */,
+				65EB4C53256BDDD400CA28A2 /* CLCircularRegion+Distance.m in Sources */,
 				65EB4C0D2566C1A500CA28A2 /* NSObject+Introspection.m in Sources */,
 				657B578A25667FA80021FB71 /* HTSite.m in Sources */,
 				657B576A25667C930021FB71 /* AppDelegate.m in Sources */,
