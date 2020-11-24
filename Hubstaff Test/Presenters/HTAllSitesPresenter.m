@@ -55,6 +55,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - All Sites Response Delegate
 
+@synthesize responseData = _responseData;
+
 - (NSOperationQueue * __nullable)apiResponseQueue {
     return self.queue;
 }

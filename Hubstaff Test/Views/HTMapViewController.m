@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) id<NSObject> __nullable appStateForegroundToken;
 
 // Formatters
-@property (nonatomic, strong) NSMeasurementFormatter *distanceFormatter;
+@property (nonatomic, strong) MKDistanceFormatter *distanceFormatter;
 
 // Helpers
 - (NSString * __nullable)formattedNotificationBodyTextWithRegion:(CLCircularRegion *)region
@@ -90,12 +90,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Formatters
-- (NSMeasurementFormatter *)distanceFormatter
+- (MKDistanceFormatter *)distanceFormatter
 {
     if (_distanceFormatter == nil) {
-        _distanceFormatter = [[NSMeasurementFormatter alloc] init];
-        _distanceFormatter.unitOptions = NSMeasurementFormatterUnitOptionsNaturalScale | NSMeasurementFormatterUnitOptionsProvidedUnit;
-        _distanceFormatter.unitStyle = NSFormattingUnitStyleMedium;
+        _distanceFormatter = [[MKDistanceFormatter alloc] init];
+        _distanceFormatter.units = MKDistanceFormatterUnitsMetric;
+        _distanceFormatter.unitStyle = MKDistanceFormatterUnitStyleAbbreviated;
     }
     return _distanceFormatter;
 }
@@ -214,9 +214,11 @@ NS_ASSUME_NONNULL_BEGIN
 {
     HTSite *site = [self.allSitesPresenter.allSites objectForKey:region.identifier];
     if (site == nil) return;
+    NSString *bodyText = [self formattedNotificationBodyTextWithRegion:region
+                                                    andCurrentLocation:self.locationPresenter.locationManager.location];
     [self.notificationPresenter showNotificationForSite:site
                                    withNotificationType:HTRegionNotificationExit
-                                            andBodyText:nil];
+                                            andBodyText:bodyText];
 }
 
 #pragma mark - Helpers
@@ -225,9 +227,8 @@ NS_ASSUME_NONNULL_BEGIN
 {
     if (location == nil) return nil;
     CLLocationDistance distance = [region getDistanceFromLocation:location];
-    NSMeasurement *measurement = [[NSMeasurement alloc] initWithDoubleValue:distance
-                                                                       unit:[NSUnitLength meters]];
-    return [self.distanceFormatter stringFromMeasurement:measurement];
+#warning TODO: AC - this sentece should be placed in a stringsdict 
+    return [NSString stringWithFormat:@"%@ %@.", [self.distanceFormatter stringFromDistance:distance], NSLocalizedString(@"away", nil)];
 }
 
 + (MKCircle *)circleOverlayForSite:(HTSite *)site {

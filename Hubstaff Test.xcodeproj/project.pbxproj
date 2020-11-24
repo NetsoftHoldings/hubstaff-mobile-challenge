@@ -26,6 +26,7 @@
 		65EB4C47256BCDE200CA28A2 /* HTActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EB4C46256BCDE200CA28A2 /* HTActivityIndicatorView.m */; };
 		65EB4C4F256BCEE600CA28A2 /* HTCurrentLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EB4C4E256BCEE600CA28A2 /* HTCurrentLocationViewController.m */; };
 		65EB4C53256BDDD400CA28A2 /* CLCircularRegion+Distance.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EB4C52256BDDD400CA28A2 /* CLCircularRegion+Distance.m */; };
+		65EB4C94256D303D00CA28A2 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EB4C93256D303C00CA28A2 /* SceneDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +67,8 @@
 		65EB4C51256BDDD400CA28A2 /* CLCircularRegion+Distance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CLCircularRegion+Distance.h"; sourceTree = "<group>"; };
 		65EB4C52256BDDD400CA28A2 /* CLCircularRegion+Distance.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CLCircularRegion+Distance.m"; sourceTree = "<group>"; };
 		65EB4C5D256BEDBC00CA28A2 /* City Bicycle Ride.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "City Bicycle Ride.gpx"; path = "Hubstaff Test/City Bicycle Ride.gpx"; sourceTree = "<group>"; };
+		65EB4C92256D303C00CA28A2 /* SceneDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
+		65EB4C93256D303C00CA28A2 /* SceneDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +108,8 @@
 			children = (
 				657B576825667C930021FB71 /* AppDelegate.h */,
 				657B576925667C930021FB71 /* AppDelegate.m */,
+				65EB4C92256D303C00CA28A2 /* SceneDelegate.h */,
+				65EB4C93256D303C00CA28A2 /* SceneDelegate.m */,
 				657B578625667F110021FB71 /* API */,
 				657B578C25667FAD0021FB71 /* DataModel */,
 				65EB4C202567BBFC00CA28A2 /* Presenters */,
@@ -281,6 +286,7 @@
 				65EB4C53256BDDD400CA28A2 /* CLCircularRegion+Distance.m in Sources */,
 				65EB4C0D2566C1A500CA28A2 /* NSObject+Introspection.m in Sources */,
 				657B578A25667FA80021FB71 /* HTSite.m in Sources */,
+				65EB4C94256D303D00CA28A2 /* SceneDelegate.m in Sources */,
 				657B576A25667C930021FB71 /* AppDelegate.m in Sources */,
 				65EB4C47256BCDE200CA28A2 /* HTActivityIndicatorView.m in Sources */,
 				65EB4C142566C7DC00CA28A2 /* UIColor+Hex.m in Sources */,

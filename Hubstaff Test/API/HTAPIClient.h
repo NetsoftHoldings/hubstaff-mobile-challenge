@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol HTAPIResponseDelegate <NSObject>
 @property (nonatomic, readonly) NSOperationQueue * __nullable apiResponseQueue;
+@property (nonatomic, strong) NSMutableData * __nullable responseData;
 @end
 
 

@@ -2,6 +2,12 @@
 
 - Is the radius in meters?
 
+- location always
+
+- 500 meters
+
+- provisional notifications
+
 - Model-view-presenter
     - MVVM is overkill here, best for a reactive approach
     - MVP can help with the massive view controller problem

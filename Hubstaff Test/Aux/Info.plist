@@ -25,6 +25,10 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Hubstaff Test needs your location to show sites near you.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Hubstaff Test needs your location to show sites near you.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Hubstaff Test needs your location to show sites near you.</string>
 	<key>UIApplicationSceneManifest</key>

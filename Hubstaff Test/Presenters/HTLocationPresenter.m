@@ -26,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 // Helper
 + (CLCircularRegion *)circularRegionWithSite:(HTSite *)site
                           andMaximumDistance:(CLLocationDistance)maximumDistance;
+- (void)didChangeAuthorization;
 
 @end
 
@@ -93,9 +94,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)hasLocationPermission
 {
+    if (@available(iOS 14.0, *)) {
+        switch (self.authorizationStatus) {
+            case kCLAuthorizationStatusAuthorizedAlways:
+            case kCLAuthorizationStatusAuthorizedWhenInUse:
+                return YES;
+            default:
+                return NO;
+        }
+    }
     switch (self.authorizationStatus) {
         case kCLAuthorizationStatusAuthorizedAlways:
-        case kCLAuthorizationStatusAuthorizedWhenInUse:
             return YES;
         default:
             return NO;
@@ -116,6 +125,24 @@ NS_ASSUME_NONNULL_BEGIN
                                          identifier:site.siteId];
 }
 
+- (void)didChangeAuthorization
+{
+    if (self.hasLocationPermission) {
+        [self.locationManager startMonitoringSignificantLocationChanges];
+        [self.queue setSuspended:NO];
+
+        CLLocation *location = self.locationManager.location;
+        if (location) {
+            [self locationManager:self.locationManager
+               didUpdateLocations:@[location]];
+        }
+    } else {
+        [self.queue setSuspended:YES];
+#warning TODO: AC - pass an error to `presentError:` asking the user to enable location services, as well as enabling high accuracy locations
+    }
+    [self setLoadingState:HTPresenterLoadingStateIdle];
+}
+
 #pragma mark - Location Manager Methods
 - (CLLocationManager *)locationManager
 {
@@ -134,8 +161,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)startTrackingRegionsWithSites:(NSArray<HTSite *> *)sites
 {
-    [self setLoadingState:HTPresenterLoadingStateLoading];
-
     CLLocationManager *locationManager = self.locationManager;
     [self.queue setSuspended:YES];
 
@@ -150,6 +175,8 @@ NS_ASSUME_NONNULL_BEGIN
         NSAssert(false, @"Location services not allowed on this device");
         return;
     }
+
+    [self setLoadingState:HTPresenterLoadingStateLoading];
 
     __weak typeof(self) weakSelf = self;
     [self.queue addOperationWithBlock:^{
@@ -171,12 +198,26 @@ NS_ASSUME_NONNULL_BEGIN
             [newRegions addObject:region];
         }];
 
+        CLLocation *currentLocaction = locationManager.location;
+        if (currentLocaction != nil &&
+            currentLocaction.horizontalAccuracy > kHTMinimumDistanceFilter)
+        {
+            currentLocaction = nil;
+        }
+
 #warning TODO: AC - diff the existing regions instead of resetting everything
         for (CLRegion *region in locationManager.monitoredRegions) {
             [locationManager stopMonitoringForRegion:region];
         }
-        for (CLRegion *region in newRegions) {
+        for (CLCircularRegion *region in newRegions) {
             [locationManager startMonitoringForRegion:region];
+            /**
+             Here we check if the user is already in a region
+             */
+            if (currentLocaction != nil && [region containsCoordinate:currentLocaction.coordinate]) {
+                [weakSelf locationManager:locationManager
+                           didEnterRegion:region];
+            }
         }
 
         dispatch_sync(dispatch_get_main_queue(), ^{
@@ -185,10 +226,11 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 
     if (self.hasLocationPermission) {
-        [self.locationManager startUpdatingLocation];
+        [self.locationManager startMonitoringSignificantLocationChanges];
         [self.queue setSuspended:NO];
     } else {
-        [locationManager requestWhenInUseAuthorization];
+        [self setLoadingState:HTPresenterLoadingStateLoading];
+        [locationManager requestAlwaysAuthorization];
     }
 }
 
@@ -197,46 +239,60 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Location Manager Delegate
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
+{
+    [self didChangeAuthorization];
+}
+
 - (void)locationManagerDidChangeAuthorization:(CLLocationManager *)manager
 {
-    if (self.hasLocationPermission) {
-        [self.locationManager startUpdatingLocation];
-        [self.queue setSuspended:NO];
-        __weak typeof(self) weakSelf = self;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf.locationView bindCurrentLocation:manager.location];
-        });
-    } else {
-        [self.queue setSuspended:YES];
-        [self.queue cancelAllOperations];
-#warning TODO: AC - pass an error to `presentError:` asking the user to enable location services, as well as enabling high accuracy locations
-    }
+    [self didChangeAuthorization];
 }
 
 - (void)locationManager:(CLLocationManager *)manager
      didUpdateLocations:(NSArray<CLLocation *> *)locations
 {
+    CLLocation *location = locations.lastObject;
     __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [weakSelf.locationView bindCurrentLocation:locations.lastObject];
+        [weakSelf.locationView bindCurrentLocation:location];
+    });
+}
+
+- (void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region
+{
+#if DEBUG
+    NSLog(@"DID START MONITORING REGION: %@", region);
+#endif
+}
+
+- (void)locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion * __nullable)region
+              withError:(NSError *)error
+{
+#if DEBUG
+    NSLog(@"FAILED TO MONITOR REGION; ERROR: %@", error);
+#endif
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+         didEnterRegion:(CLRegion *)region
+{
+    if ([region isKindOfClass:[CLCircularRegion class]] == NO) return;
+
+    __weak id<HTLocationView> view = self.locationView;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [view userDidEnterRegion:(CLCircularRegion *)region];
     });
 }
 
 - (void)locationManager:(CLLocationManager *)manager
-         didEnterRegion:(CLCircularRegion *)region
+          didExitRegion:(CLRegion *)region
 {
-    __weak id<HTLocationView> view = self.locationView;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [view userDidEnterRegion:region];
-    });
-}
+    if ([region isKindOfClass:[CLCircularRegion class]] == NO) return;
 
-- (void)locationManager:(CLLocationManager *)manager
-          didExitRegion:(CLCircularRegion *)region
-{
     __weak id<HTLocationView> view = self.locationView;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [view userDidExitRegion:region];
+        [view userDidExitRegion:(CLCircularRegion *)region];
     });
 }
 

@@ -24,6 +24,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@interface HTNotificationsPresenter(NotificationDelegate) <UNUserNotificationCenterDelegate>
+@end
+
 
 @implementation HTNotificationsPresenter
 
@@ -51,6 +54,8 @@ NS_ASSUME_NONNULL_BEGIN
     [self.queue setSuspended:YES];
 
     UNUserNotificationCenter *notificationCenter = self.notificationCenter;
+    notificationCenter.delegate = self;
+
     UNAuthorizationOptions options = UNAuthorizationOptionSound |
                                      UNAuthorizationOptionAlert |
                                      UNAuthorizationOptionCarPlay |
@@ -90,10 +95,10 @@ NS_ASSUME_NONNULL_BEGIN
 
         switch (crossingType) {
             case HTRegionNotificationEnter:
-                content.title = NSLocalizedString(@"Entering site", nil);
+                content.title = NSLocalizedString(@"Entering site:", nil);
                 break;
             case HTRegionNotificationExit:
-                content.title = NSLocalizedString(@"Exiting site", nil);
+                content.title = NSLocalizedString(@"Exiting site:", nil);
                 break;
             default:
                 break;
@@ -133,6 +138,22 @@ NS_ASSUME_NONNULL_BEGIN
                                  categorySummaryFormat:NSLocalizedString(@"Recent Sites Crossed", nil)
                                                options:UNNotificationCategoryOptionAllowInCarPlay | UNNotificationCategoryOptionHiddenPreviewsShowTitle]
     ]];
+}
+
+@end
+
+#pragma mark - Notification Center Delegate
+@implementation HTNotificationsPresenter(NotificationDelegate)
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+       willPresentNotification:(UNNotification *)notification
+         withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler
+{
+    if (@available(iOS 14.0, *)) {
+        completionHandler(UNNotificationPresentationOptionBanner);
+        return;
+    }
+    completionHandler(UNNotificationPresentationOptionAlert);
 }
 
 @end

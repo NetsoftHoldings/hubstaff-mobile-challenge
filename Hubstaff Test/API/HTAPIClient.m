@@ -29,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setTaskId:(NSUInteger)taskId
       andDelegate:(id<HTAPIResponseDelegate>)delegate;
 - (id<HTAPIResponseDelegate> __nullable)getAndRemoveDelegateForId:(NSUInteger)taskId;
+- (id<HTAPIResponseDelegate> __nullable)getDelegateForId:(NSUInteger)taskId;
 
 @end
 
@@ -99,6 +100,14 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+- (id<HTAPIResponseDelegate> __nullable)getDelegateForId:(NSUInteger)taskId
+{
+    @synchronized (_taskIdsToDelegates) {
+        NSNumber *key = [NSNumber numberWithUnsignedInteger:taskId];
+        return [_taskIdsToDelegates objectForKey:key];
+    }
+}
+
 #pragma mark - Public Methods
 
 - (void)loadAllSitesWithDelegate:(id<HTAllSitesResponseDelegate>)delegate
@@ -113,6 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
         NSURLSessionDataTask *task = [weakSelf.urlSession dataTaskWithRequest:request];
         [weakSelf setTaskId:task.taskIdentifier
                 andDelegate:delegate];
+        delegate.responseData = [NSMutableData new];
         [task resume];
     }];
 }
@@ -131,7 +141,7 @@ didReceiveResponse:(NSURLResponse *)response
           dataTask:(NSURLSessionDataTask *)dataTask
     didReceiveData:(NSData *)data
 {
-    id<HTAPIResponseDelegate> delegate = [self getAndRemoveDelegateForId:dataTask.taskIdentifier];
+    id<HTAPIResponseDelegate> delegate = [self getDelegateForId:dataTask.taskIdentifier];
     if (delegate == nil) return;
     NSOperationQueue *queue = (delegate.apiResponseQueue) ? delegate.apiResponseQueue : [NSOperationQueue mainQueue];
 
@@ -140,6 +150,9 @@ didReceiveResponse:(NSURLResponse *)response
         if (httpResponse.statusCode < kHTAPIClientFirstStatusCodeToAllow ||
             httpResponse.statusCode > kHTAPIClientLastStatusCodeToAllow)
         {
+            delegate.responseData = nil;
+            [self getAndRemoveDelegateForId:dataTask.taskIdentifier];
+
             if ([delegate conformsToProtocol:@protocol(HTAllSitesResponseDelegate)]) {
                 [queue addOperationWithBlock:^{
 #warning TODO: AC - add proper error handling
@@ -150,16 +163,41 @@ didReceiveResponse:(NSURLResponse *)response
         }
     }
 
-    if ([delegate conformsToProtocol:@protocol(HTAllSitesResponseDelegate)]) {
-#warning TODO: AC - make this more generic
-        NSError *jsonError;
-        NSDictionary *response = [NSJSONSerialization JSONObjectWithData:data
-                                                                 options:0
-                                                                   error:&jsonError];
-#warning TODO: AC - build a more rebust debug logging mechanism, potentially with file and function names
+    [delegate.responseData appendData:data];
+}
+
+- (void)URLSession:(NSURLSession *)session
+              task:(NSURLSessionTask *)task didCompleteWithError:(NSError * __nullable)error
+{
+    id<HTAPIResponseDelegate> delegate = [self getAndRemoveDelegateForId:task.taskIdentifier];
+    if (delegate == nil) return;
+    NSOperationQueue *queue = (delegate.apiResponseQueue) ? delegate.apiResponseQueue : [NSOperationQueue mainQueue];
+
+    if (error) {
 #if DEBUG
-        if (jsonError) NSLog(@"HTAllSitesRequest error: %@",jsonError);
+        NSLog(@"MALFORMED REQUEST ERROR: %@", error);
 #endif
+        if ([delegate conformsToProtocol:@protocol(HTAllSitesResponseDelegate)]) {
+            [queue addOperationWithBlock:^{
+                [(id<HTAllSitesResponseDelegate>)delegate didReceiveAllSitesResponse:@[]];
+            }];
+        }
+        return;
+    }
+
+#warning TODO: AC - make this more generic
+    NSError *jsonError;
+    NSDictionary *response = [NSJSONSerialization JSONObjectWithData:delegate.responseData
+                                                             options:0
+                                                               error:&jsonError];
+#if DEBUG
+    if (jsonError) NSLog(@"HTAllSitesRequest error: %@",jsonError);
+#warning TODO: AC - review this
+    if (ABS(jsonError.code) == 3840) return;
+#endif
+
+    if ([delegate conformsToProtocol:@protocol(HTAllSitesResponseDelegate)]) {
+#warning TODO: AC - build a more rebust debug logging mechanism, potentially with file and function names
         NSArray<NSDictionary *> *rawSites = response[@"sites"];
         NSArray<HTSite *> *sites = [HTSite sitesWithDictionaries:rawSites];
 
