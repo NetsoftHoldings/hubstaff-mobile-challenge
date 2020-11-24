@@ -26,11 +26,17 @@
                             <view opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vep-BK-ovU" userLabel="InfoView">
                                 <rect key="frame" x="40" y="64" width="334" height="60"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vT6-j2-lvs">
-                                        <rect key="frame" x="8" y="8" width="318" height="44"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="vT6-j2-lvs">
+                                        <rect key="frame" x="12" y="8" width="310" height="44"/>
                                         <subviews>
+                                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jTq-Fz-fd1">
+                                                <rect key="frame" x="0.0" y="0.0" width="286" height="44"/>
+                                                <connections>
+                                                    <segue destination="1Sl-wn-6c7" kind="embed" id="GN7-DP-vZ4"/>
+                                                </connections>
+                                            </containerView>
                                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="p2Z-WT-qZS" customClass="HTActivityIndicatorView">
-                                                <rect key="frame" x="0.0" y="0.0" width="318" height="44"/>
+                                                <rect key="frame" x="290" y="0.0" width="20" height="44"/>
                                             </activityIndicatorView>
                                         </subviews>
                                     </stackView>
@@ -39,9 +45,9 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="05o-VT-MeH"/>
                                     <constraint firstAttribute="bottomMargin" secondItem="vT6-j2-lvs" secondAttribute="bottom" id="KGF-V4-Mgs"/>
-                                    <constraint firstAttribute="trailingMargin" secondItem="vT6-j2-lvs" secondAttribute="trailing" id="Zcu-ef-Jgt"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="vT6-j2-lvs" secondAttribute="trailing" constant="4" id="Zcu-ef-Jgt"/>
                                     <constraint firstItem="vT6-j2-lvs" firstAttribute="top" secondItem="Vep-BK-ovU" secondAttribute="topMargin" id="nTE-3a-NNy"/>
-                                    <constraint firstItem="vT6-j2-lvs" firstAttribute="leading" secondItem="Vep-BK-ovU" secondAttribute="leadingMargin" id="zc5-B8-sxR"/>
+                                    <constraint firstItem="vT6-j2-lvs" firstAttribute="leading" secondItem="Vep-BK-ovU" secondAttribute="leadingMargin" constant="4" id="zc5-B8-sxR"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -71,6 +77,37 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="137.68115942028987" y="128.57142857142856"/>
+        </scene>
+        <!--Current Location View Controller-->
+        <scene sceneID="YW4-Jl-6Ot">
+            <objects>
+                <viewController id="1Sl-wn-6c7" customClass="HTCurrentLocationViewController" sceneMemberID="viewController">
+                    <view key="view" opaque="NO" contentMode="scaleToFill" id="dbE-2E-be1">
+                        <rect key="frame" x="0.0" y="0.0" width="286" height="44"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AQ8-nj-BBb">
+                                <rect key="frame" x="4" y="4" width="278" height="36"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="AQ8-nj-BBb" firstAttribute="leading" secondItem="dbE-2E-be1" secondAttribute="leading" constant="4" id="2M3-fd-gJT"/>
+                            <constraint firstItem="AQ8-nj-BBb" firstAttribute="top" secondItem="dbE-2E-be1" secondAttribute="top" constant="4" id="HMg-T4-F8e"/>
+                            <constraint firstAttribute="trailing" secondItem="AQ8-nj-BBb" secondAttribute="trailing" constant="4" id="Mhh-fm-2Ww"/>
+                            <constraint firstAttribute="bottom" secondItem="AQ8-nj-BBb" secondAttribute="bottom" constant="4" id="U80-6B-JMK"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="locationLabel" destination="AQ8-nj-BBb" id="P2T-Fk-0M9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DdG-Te-Ogu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="846" y="143"/>
         </scene>
     </scenes>
     <resources>

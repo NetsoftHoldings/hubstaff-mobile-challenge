@@ -27,6 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - View Controller Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    _locationLabel.text = kHTCurrentLocationViewControllerPlaceholder;
 }
 
 #pragma mark - Location View
@@ -36,8 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
         _locationLabel.text = kHTCurrentLocationViewControllerPlaceholder;
         return;
     }
-    _locationLabel.text = [NSString localizedStringWithFormat:@"%@: %f.3, %f.3",
-                           NSLocalizedString(@"Last known position:", nil),
+    _locationLabel.text = [NSString localizedStringWithFormat:@"%@: \n%.3f, %.3f",
+                           NSLocalizedString(@"Last known position", nil),
                            location.coordinate.latitude,
                            location.coordinate.longitude];
 }
