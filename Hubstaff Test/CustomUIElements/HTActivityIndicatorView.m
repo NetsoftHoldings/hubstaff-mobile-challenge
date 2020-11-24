@@ -33,6 +33,7 @@
                                                  repeats:NO
                                                    block:^(NSTimer * _Nonnull timer)
     {
+        if (timer.isValid == NO) return;
         if (animating) {
             [weakSelf startAnimating];
         } else {

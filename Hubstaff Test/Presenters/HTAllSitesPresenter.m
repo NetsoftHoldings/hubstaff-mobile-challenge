@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HTAllSitesPresenter ()
+@interface HTAllSitesPresenter () <HTAllSitesResponseDelegate>
 
 @property (nonatomic, strong) NSDictionary<NSString *, HTSite *> *allSites;
 
@@ -50,26 +50,34 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)loadAllSites
 {
     [self setLoadingState:HTPresenterLoadingStateLoading];
+    [[HTAPIClient sharedClient] loadAllSitesWithDelegate:self];
+}
+
+#pragma mark - All Sites Response Delegate
+
+- (NSOperationQueue * __nullable)apiResponseQueue {
+    return self.queue;
+}
+
+- (void)didReceiveAllSitesResponse:(NSArray<HTSite *> *)allSites
+{
+    NSMutableDictionary<NSString *, HTSite *> *newSites = [[NSMutableDictionary alloc] initWithCapacity:allSites.count + 1];
+    for (HTSite *site in allSites) {
+        [newSites setValue:site forKey:site.siteId];
+    }
+    self.allSites = [newSites copy];
 
     __weak typeof(self) weakSelf = self;
-    [[HTAPIClient sharedClient] loadAllSitesWithBlock:^(NSArray<HTSite *> *sites) {
-        NSMutableDictionary<NSString *, HTSite *> *newSites = [[NSMutableDictionary alloc] initWithCapacity:sites.count + 1];
-        for (HTSite *site in sites) {
-            [newSites setValue:site forKey:site.siteId];
-        }
-        weakSelf.allSites = [newSites copy];
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        [weakSelf.allSitesView bindAllSites:weakSelf.allSites];
+    });
 
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            [weakSelf.allSitesView bindAllSites:weakSelf.allSites];
-        });
-
-        BOOL isEmpty = sites.count == 0;
-        if (isEmpty) {
-            [weakSelf setLoadingState:HTPresenterLoadingStateEmpty];
-        } else {
-            [weakSelf setLoadingState:HTPresenterLoadingStateIdle];
-        }
-    } usingQueue:self.queue];
+    BOOL isEmpty = allSites.count == 0;
+    if (isEmpty) {
+        [self setLoadingState:HTPresenterLoadingStateEmpty];
+    } else {
+        [self setLoadingState:HTPresenterLoadingStateIdle];
+    }
 }
 
 @end

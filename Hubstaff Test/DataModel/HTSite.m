@@ -12,7 +12,11 @@
 #import "HTConstants.h"
 #import <MapKit/MKAnnotation.h>
 
+
 NS_ASSUME_NONNULL_BEGIN
+
+NSString * const kHTSiteIdKey = @"id";
+
 
 @interface HTSite()
 
@@ -57,8 +61,13 @@ NS_ASSUME_NONNULL_BEGIN
 {
     if (self = [super init]) {
         //special case for id since it's a reserved word
-        self.siteId = [dictionary objectForKey:@"id"];
-        [self setValuesForKeysWithDictionary:dictionary];
+        self.siteId = [dictionary objectForKey:kHTSiteIdKey];
+        NSMutableDictionary<NSString *,NSString *> *params = [[NSMutableDictionary alloc] initWithCapacity:dictionary.count];
+        for (NSString *key in dictionary.allKeys) {
+            if ([key isEqualToString:kHTSiteIdKey]) continue;
+            params[key] = dictionary[key];
+        }
+        [self setValuesForKeysWithDictionary:params];
     }
     return self;
 }

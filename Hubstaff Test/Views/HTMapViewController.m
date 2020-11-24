@@ -17,6 +17,10 @@
 #import "CLCircularRegion+Distance.h"
 
 
+#define kHTMapViewControllerCircleStrokeColor [[UIColor systemBlueColor] colorWithAlphaComponent:0.8]
+#define kHTMapViewControllerCircleFillColor [[UIColor systemBlueColor] colorWithAlphaComponent:0.4]
+
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HTMapViewController () <HTAllSitesView, HTLocationView, HTNotificationsView>
@@ -30,6 +34,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak) IBOutlet HTActivityIndicatorView * __nullable activityIndicatorView;
 @property (nonatomic, weak) IBOutlet MKMapView * __nullable mapView;
 @property (nonatomic, weak) HTCurrentLocationViewController * __nullable currentLocationViewController;
+
+// View Controller Life Cycle
+@property (nonatomic, getter=isVisible) BOOL visible;
+- (void)viewWillAppearOrAppIsInForeground;
+- (void)viewDidDisappearOrAppIsInBackground;
+
+// App Life Cycle
+@property (nonatomic, strong) id<NSObject> __nullable appStateBackgroundToken;
+@property (nonatomic, strong) id<NSObject> __nullable appStateForegroundToken;
 
 // Formatters
 @property (nonatomic, strong) NSMeasurementFormatter *distanceFormatter;
@@ -88,8 +101,55 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - View Controller Life Cycle
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
+
+    __weak typeof(self) weakSelf = self;
+    self.appStateBackgroundToken = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidEnterBackgroundNotification
+                                                                                     object:nil
+                                                                                      queue:[NSOperationQueue mainQueue]
+                                                                                 usingBlock:^(NSNotification * _Nonnull note)
+    {
+        [weakSelf viewDidDisappearOrAppIsInBackground];
+    }];
+
+    self.appStateForegroundToken = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillEnterForegroundNotification
+                                                                                     object:nil
+                                                                                      queue:[NSOperationQueue mainQueue]
+                                                                                 usingBlock:^(NSNotification * _Nonnull note)
+    {
+        [weakSelf viewWillAppearOrAppIsInForeground];
+    }];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    self.visible = YES;
+
+    [self viewWillAppearOrAppIsInForeground];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+
+    self.visible = NO;
+
+    [self viewDidDisappearOrAppIsInBackground];
+}
+
+- (void)viewWillAppearOrAppIsInForeground
+{
+    if (self.isVisible == NO) return;
+    [self.allSitesPresenter loadAllSites];
+}
+
+- (void)viewDidDisappearOrAppIsInBackground
+{
+    [self.locationPresenter stopUpdatingLocations];
 }
 
 #pragma mark - Navigation
@@ -112,7 +172,7 @@ NS_ASSUME_NONNULL_BEGIN
         case HTPresenterLoadingStateIdle:
         case HTPresenterLoadingStateEmpty:
         default:
-            [self.activityIndicatorView setAnimating:YES
+            [self.activityIndicatorView setAnimating:NO
                                            withDelay:1];
             break;
     }
@@ -135,8 +195,6 @@ NS_ASSUME_NONNULL_BEGIN
     if (location) {
         if (self.mapView.showsUserLocation == NO) {
             self.mapView.showsUserLocation = YES;
-            [self.mapView setCenterCoordinate:location.coordinate
-                                     animated:YES];
         }
     }
 }
@@ -193,24 +251,34 @@ NS_ASSUME_NONNULL_BEGIN
                            level:MKOverlayLevelAboveRoads];
         [self.mapView addAnnotation:site];
     }
+
+    [self.mapView showAnnotations:sites
+                         animated:YES];
 }
 
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView
             rendererForOverlay:(id<MKOverlay>)overlay
 {
-    return [[MKCircleRenderer alloc] initWithOverlay:overlay];
+    MKCircleRenderer *result = [[MKCircleRenderer alloc] initWithOverlay:overlay];
+    result.lineWidth = 1;
+    result.strokeColor = kHTMapViewControllerCircleStrokeColor;
+    result.fillColor = kHTMapViewControllerCircleFillColor;
+    return result;
 }
 
 - (MKAnnotationView * __nullable)mapView:(MKMapView *)mapView
                        viewForAnnotation:(id<MKAnnotation>)annotation
 {
-    HTSite *site = (HTSite *)annotation;
-    MKMarkerAnnotationView *result = [[MKMarkerAnnotationView alloc] initWithAnnotation:annotation
-                                                                        reuseIdentifier:site.siteId];
-    result.animatesWhenAdded = YES;
-    result.subtitleVisibility = MKFeatureVisibilityHidden;
-    result.markerTintColor = site.uiColor;
-    return result;
+    if ([annotation isKindOfClass:[HTSite class]]) {
+        HTSite *site = (HTSite *)annotation;
+        MKMarkerAnnotationView *result = [[MKMarkerAnnotationView alloc] initWithAnnotation:annotation
+                                                                            reuseIdentifier:site.siteId];
+        result.animatesWhenAdded = YES;
+        result.subtitleVisibility = MKFeatureVisibilityHidden;
+        result.markerTintColor = site.uiColor;
+        return result;
+    }
+    return nil;
 }
 
 @end

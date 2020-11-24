@@ -6,9 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-
-@protocol HTLocationView;
+#import "HTLocationPresenter.h"
 
 
 NS_ASSUME_NONNULL_BEGIN

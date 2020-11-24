@@ -6,18 +6,28 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HTAllSitesResponseBlock.h"
+
 
 @class HTSite;
 
+
 NS_ASSUME_NONNULL_BEGIN
+
+@protocol HTAPIResponseDelegate <NSObject>
+@property (nonatomic, readonly) NSOperationQueue * __nullable apiResponseQueue;
+@end
+
+
+@protocol HTAllSitesResponseDelegate <HTAPIResponseDelegate>
+- (void)didReceiveAllSitesResponse:(NSArray<HTSite *> *)allSites;
+@end
+
 
 @interface HTAPIClient : NSObject
 
 + (HTAPIClient *)sharedClient;
 
-- (void)loadAllSitesWithBlock:(HTActiveSitesResultBlock)block
-                   usingQueue:(NSOperationQueue * __nullable)queue;
+- (void)loadAllSitesWithDelegate:(id<HTAllSitesResponseDelegate>)delegate;
 
 @end
 

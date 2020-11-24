@@ -6,14 +6,29 @@
 //
 
 #import "HTAPIClient.h"
-#import "HTAllSitesRequest.h"
 #import "HTSite.h"
 
+
+#define kHTAPIClientFirstStatusCodeToAllow 200
+#define kHTAPIClientLastStatusCodeToAllow 399
+
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface HTAPIClient() <NSURLSessionDataDelegate>
 
 @property (nonatomic, strong) NSURLSession *urlSession;
 @property (nonatomic, strong) NSOperationQueue *queue;
+
+/**
+ There's a potential memory leak here, in situations where the delegate is never removed from the dictionary, since the dictionary lives in the global scope (singleton).
+ For now, this is ok, but it would be good to wrap delegates in another object that only held a weak reference to the delegates.
+ */
+@property (atomic, strong) NSMutableDictionary<NSNumber *, id<HTAPIResponseDelegate>> *taskIdsToDelegates;
+
+- (void)setTaskId:(NSUInteger)taskId
+      andDelegate:(id<HTAPIResponseDelegate>)delegate;
+- (id<HTAPIResponseDelegate> __nullable)getAndRemoveDelegateForId:(NSUInteger)taskId;
 
 @end
 
@@ -32,11 +47,21 @@
     return sharedInstance;
 }
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _taskIdsToDelegates = [NSMutableDictionary new];
+    }
+    return self;
+}
+
 - (NSURLSession *)urlSession
 {
     if (_urlSession == nil) {
-        NSURLSessionConfiguration *config = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:@"com.bellapplab.Hubstaff-Test"];
+        NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
         [config setHTTPAdditionalHeaders:@{@"Content-Type": @"application/json"}];
+        config.waitsForConnectivity = YES;
         _urlSession = [NSURLSession sessionWithConfiguration:config
                                                     delegate:self
                                                delegateQueue:self.queue];
@@ -53,16 +78,42 @@
     return _queue;
 }
 
+#pragma mark - Managing Task Ids
+
+- (void)setTaskId:(NSUInteger)taskId
+      andDelegate:(id<HTAPIResponseDelegate>)delegate
+{
+    @synchronized (_taskIdsToDelegates) {
+        [_taskIdsToDelegates setObject:delegate
+                                forKey:[NSNumber numberWithUnsignedInteger:taskId]];
+    }
+}
+
+- (id<HTAPIResponseDelegate> __nullable)getAndRemoveDelegateForId:(NSUInteger)taskId
+{
+    @synchronized (_taskIdsToDelegates) {
+        NSNumber *key = [NSNumber numberWithUnsignedInteger:taskId];
+        id<HTAPIResponseDelegate> result = [_taskIdsToDelegates objectForKey:key];
+        [_taskIdsToDelegates removeObjectForKey:key];
+        return result;
+    }
+}
+
 #pragma mark - Public Methods
 
-- (void)loadAllSitesWithBlock:(HTActiveSitesResultBlock)block
-                   usingQueue:(NSOperationQueue *)queue
+- (void)loadAllSitesWithDelegate:(id<HTAllSitesResponseDelegate>)delegate
 {
     __weak typeof(self) weakSelf = self;
     [self.queue addOperationWithBlock:^{
-        NSURLRequest *request = [[HTAllSitesRequest alloc] initWithBlock:block
-                                                        andResponseQueue:(queue) ? queue : [NSOperationQueue mainQueue]];
-        [[weakSelf.urlSession dataTaskWithRequest:request] resume];
+        //when making requests more generic, the construction of the URLs can be more modular
+        //having the URL here is not so nice, as it is behaves as "magic number"
+        //but it's good enough for now
+        NSURL *url = [NSURL URLWithString:@"https://run.mocky.io/v3/60fc94d9-db13-4f00-bda4-523f1ba6b4aa"];
+        NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+        NSURLSessionDataTask *task = [weakSelf.urlSession dataTaskWithRequest:request];
+        [weakSelf setTaskId:task.taskIdentifier
+                andDelegate:delegate];
+        [task resume];
     }];
 }
 
@@ -70,28 +121,55 @@
 
 - (void)URLSession:(NSURLSession *)session
           dataTask:(NSURLSessionDataTask *)dataTask
+didReceiveResponse:(NSURLResponse *)response
+ completionHandler:(void (^)(NSURLSessionResponseDisposition))completionHandler
+{
+    completionHandler(NSURLSessionResponseAllow);
+}
+
+- (void)URLSession:(NSURLSession *)session
+          dataTask:(NSURLSessionDataTask *)dataTask
     didReceiveData:(NSData *)data
 {
-    if ([dataTask.originalRequest isMemberOfClass:[HTAllSitesRequest class]]) {
-        #warning TODO: AC - make this more generic
+    id<HTAPIResponseDelegate> delegate = [self getAndRemoveDelegateForId:dataTask.taskIdentifier];
+    if (delegate == nil) return;
+    NSOperationQueue *queue = (delegate.apiResponseQueue) ? delegate.apiResponseQueue : [NSOperationQueue mainQueue];
+
+    if ([dataTask.response isKindOfClass:[NSHTTPURLResponse class]]) {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)dataTask.response;
+        if (httpResponse.statusCode < kHTAPIClientFirstStatusCodeToAllow ||
+            httpResponse.statusCode > kHTAPIClientLastStatusCodeToAllow)
+        {
+            if ([delegate conformsToProtocol:@protocol(HTAllSitesResponseDelegate)]) {
+                [queue addOperationWithBlock:^{
+#warning TODO: AC - add proper error handling
+                    [(id<HTAllSitesResponseDelegate>)delegate didReceiveAllSitesResponse:@[]];
+                }];
+            }
+            return;
+        }
+    }
+
+    if ([delegate conformsToProtocol:@protocol(HTAllSitesResponseDelegate)]) {
+#warning TODO: AC - make this more generic
         NSError *jsonError;
         NSDictionary *response = [NSJSONSerialization JSONObjectWithData:data
                                                                  options:0
                                                                    error:&jsonError];
-        #warning TODO: AC - build a more rebust debug logging mechanism, potentially with file and function names
-        #warning TODO: AC - add proper error handling
-        #if DEBUG
+#warning TODO: AC - build a more rebust debug logging mechanism, potentially with file and function names
+#if DEBUG
         if (jsonError) NSLog(@"HTAllSitesRequest error: %@",jsonError);
-        #endif
+#endif
         NSArray<NSDictionary *> *rawSites = response[@"sites"];
         NSArray<HTSite *> *sites = [HTSite sitesWithDictionaries:rawSites];
 
-        HTAllSitesRequest *originalRequest = (HTAllSitesRequest *)dataTask.originalRequest;
-        HTActiveSitesResultBlock block = [originalRequest completionBlock];
-        [originalRequest.responseQueue addOperationWithBlock:^{
-            block(sites);
+        [queue addOperationWithBlock:^{
+            [(id<HTAllSitesResponseDelegate>)delegate didReceiveAllSitesResponse:sites];
         }];
+        return;
     }
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

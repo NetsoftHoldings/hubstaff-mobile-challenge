@@ -66,29 +66,29 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)areLocationServicesUnavailable
 {
     if ([CLLocationManager significantLocationChangeMonitoringAvailable] == NO) {
-        return NO;
+        return YES;
     }
     if ([CLLocationManager isMonitoringAvailableForClass:[CLCircularRegion class]] == NO) {
-        return NO;
+        return YES;
     }
-    return YES;
+    return NO;
 }
 
 - (BOOL)areLocationServicesDenied
 {
     if (@available(iOS 14.0, *)) {
         if (self.locationManager.accuracyAuthorization == CLAccuracyAuthorizationReducedAccuracy) {
-            return NO;
+            return YES;
         }
     }
     switch (self.authorizationStatus) {
         case kCLAuthorizationStatusRestricted:
         case kCLAuthorizationStatusDenied:
-            return NO;
+            return YES;
         default:
             break;
     }
-    return YES;
+    return NO;
 }
 
 - (BOOL)hasLocationPermission
@@ -137,7 +137,6 @@ NS_ASSUME_NONNULL_BEGIN
     [self setLoadingState:HTPresenterLoadingStateLoading];
 
     CLLocationManager *locationManager = self.locationManager;
-    __weak id<HTLocationView> view = self.locationView;
     [self.queue setSuspended:YES];
 
     if (self.areLocationServicesUnavailable) {
@@ -186,16 +185,22 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 
     if (self.hasLocationPermission) {
+        [self.locationManager startUpdatingLocation];
         [self.queue setSuspended:NO];
     } else {
         [locationManager requestWhenInUseAuthorization];
     }
 }
 
+- (void)stopUpdatingLocations {
+    [self.locationManager stopUpdatingLocation];
+}
+
 #pragma mark - Location Manager Delegate
 - (void)locationManagerDidChangeAuthorization:(CLLocationManager *)manager
 {
     if (self.hasLocationPermission) {
+        [self.locationManager startUpdatingLocation];
         [self.queue setSuspended:NO];
         __weak typeof(self) weakSelf = self;
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -218,7 +223,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)locationManager:(CLLocationManager *)manager
-         didEnterRegion:(CLRegion *)region
+         didEnterRegion:(CLCircularRegion *)region
 {
     __weak id<HTLocationView> view = self.locationView;
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -227,7 +232,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)locationManager:(CLLocationManager *)manager
-          didExitRegion:(CLRegion *)region
+          didExitRegion:(CLCircularRegion *)region
 {
     __weak id<HTLocationView> view = self.locationView;
     dispatch_async(dispatch_get_main_queue(), ^{

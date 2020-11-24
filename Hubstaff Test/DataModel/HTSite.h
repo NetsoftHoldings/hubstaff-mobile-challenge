@@ -6,10 +6,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <MapKit/MKAnnotation.h>
 
 
 @class UIColor, CLLocation;
-@protocol MKAnnotation;
 
 
 NS_ASSUME_NONNULL_BEGIN

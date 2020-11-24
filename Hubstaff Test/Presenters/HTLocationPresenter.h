@@ -34,6 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) CLLocationManager *locationManager;
 
 - (void)startTrackingRegionsWithSites:(NSArray<HTSite *> *)sites;
+- (void)stopUpdatingLocations;
 
 @end
 

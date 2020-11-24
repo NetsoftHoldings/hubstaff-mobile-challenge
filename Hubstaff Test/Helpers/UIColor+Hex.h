@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface UIColor (Hex)
 
 /// Assumes input like "#00FF00" (#RRGGBB). Source: https://stackoverflow.com/a/12397366
-+ (UIColor * __nullable)colorFromHexString:(NSString *)hexString;
++ (UIColor * __nullable)colorFromHexString:(NSString * __nullable)hexString;
 
 @end
 

@@ -23,17 +23,48 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="iHg-Ct-FJI"/>
                                 </connections>
                             </mapView>
+                            <view opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vep-BK-ovU" userLabel="InfoView">
+                                <rect key="frame" x="40" y="64" width="334" height="60"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vT6-j2-lvs">
+                                        <rect key="frame" x="8" y="8" width="318" height="44"/>
+                                        <subviews>
+                                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="p2Z-WT-qZS" customClass="HTActivityIndicatorView">
+                                                <rect key="frame" x="0.0" y="0.0" width="318" height="44"/>
+                                            </activityIndicatorView>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="secondaryLabelColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="05o-VT-MeH"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="vT6-j2-lvs" secondAttribute="bottom" id="KGF-V4-Mgs"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="vT6-j2-lvs" secondAttribute="trailing" id="Zcu-ef-Jgt"/>
+                                    <constraint firstItem="vT6-j2-lvs" firstAttribute="top" secondItem="Vep-BK-ovU" secondAttribute="topMargin" id="nTE-3a-NNy"/>
+                                    <constraint firstItem="vT6-j2-lvs" firstAttribute="leading" secondItem="Vep-BK-ovU" secondAttribute="leadingMargin" id="zc5-B8-sxR"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="30"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="zKa-Va-wRl" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="9Y2-9Z-y1L"/>
+                            <constraint firstItem="Vep-BK-ovU" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="0DW-kI-Ne2"/>
+                            <constraint firstItem="Vep-BK-ovU" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Fsl-1i-Btg"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Vep-BK-ovU" secondAttribute="trailing" constant="40" id="GSd-G2-QQo"/>
                             <constraint firstItem="zKa-Va-wRl" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="UQj-Hu-gfB"/>
+                            <constraint firstItem="Vep-BK-ovU" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="WPx-lI-0tx"/>
                             <constraint firstAttribute="trailing" secondItem="zKa-Va-wRl" secondAttribute="trailing" id="Yoc-wF-ICq"/>
                             <constraint firstAttribute="bottom" secondItem="zKa-Va-wRl" secondAttribute="bottom" id="c62-Ok-hSx"/>
+                            <constraint firstItem="zKa-Va-wRl" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="qfz-8a-6Bz"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicatorView" destination="p2Z-WT-qZS" id="Ncg-76-3pi"/>
                         <outlet property="mapView" destination="zKa-Va-wRl" id="6FI-eu-SkU"/>
                     </connections>
                 </viewController>
@@ -43,6 +74,9 @@
         </scene>
     </scenes>
     <resources>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
